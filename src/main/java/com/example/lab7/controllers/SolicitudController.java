@@ -4,6 +4,7 @@ package com.example.lab7.controllers;
 import com.example.lab7.entities.Solicitude;
 import com.example.lab7.repository.SolicitudRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
@@ -104,7 +105,7 @@ public class SolicitudController {
                         return ResponseEntity.ok(responseJson);
                     }else{
                         responseJson.put("solicitud ya atendida",solicitude.getId());
-                         return ResponseEntity.badRequest().body(responseJson);
+                         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(responseJson);
                     }
 
                 }else{
@@ -151,7 +152,7 @@ public class SolicitudController {
                         responseJson.put("id solicitud",solicitude.getId());
                         return ResponseEntity.ok(responseJson);
                     }else{
-                        responseJson.put("solicitud ya atendida",solicitude.getId());
+                        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(responseJson);
                         return ResponseEntity.badRequest().body(responseJson);
                     }
 
