@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -76,5 +77,151 @@ public class SolicitudController {
 
 
     }
+
+    @PutMapping(value="/aprobarSolicitud")
+    public ResponseEntity<HashMap<String,Object>> aprobarSolicitud (@RequestParam("idSolicitud") String id){
+
+        HashMap<String ,Object> responseJson = new HashMap<>();
+
+        try{
+            Integer idInteger = Integer.valueOf(id);
+            if(idInteger<=0){
+                responseJson.put("error","el id debe ser mayor que 0");
+                return ResponseEntity.badRequest().body(responseJson);
+            }else{
+
+                Optional<Solicitude> solicitudeOptional = solicitudRepository.findById(idInteger);
+
+                if(solicitudeOptional.isPresent()){
+
+                    Solicitude solicitude = solicitudeOptional.get();
+                    if(solicitude.getSolicitudEstado().equalsIgnoreCase("pendiente")){
+                        solicitude.setSolicitudEstado("aprobado");
+                        solicitudRepository.save(solicitude);
+                        responseJson.put("id solicitud",solicitude.getId());
+                        return ResponseEntity.ok(responseJson);
+                    }else{
+                        responseJson.put("solicitud ya atendida",solicitude.getId());
+                         return ResponseEntity.badRequest().body(responseJson);
+                    }
+
+                }else{
+                    responseJson.put("error","el id brindado no corresponde a ninguna solicitud");
+                     return ResponseEntity.badRequest().body(responseJson);
+                }
+
+
+
+            }
+
+
+
+
+        }catch (Exception e){
+            responseJson.put("error","el id no puede ser nulo y debe ser un numero");
+             return ResponseEntity.badRequest().body(responseJson);
+
+        }
+
+
+    }
+
+    @PutMapping(value="/denegarSolicitud")
+    public ResponseEntity<HashMap<String,Object>> denegarSolicitud (@RequestParam("idSolicitud") String id){
+
+        HashMap<String ,Object> responseJson = new HashMap<>();
+
+        try{
+            Integer idInteger = Integer.valueOf(id);
+            if(idInteger<=0){
+                responseJson.put("error","el id debe ser mayor que 0");
+                return ResponseEntity.badRequest().body(responseJson);
+            }else{
+
+                Optional<Solicitude> solicitudeOptional = solicitudRepository.findById(idInteger);
+
+                if(solicitudeOptional.isPresent()){
+
+                    Solicitude solicitude = solicitudeOptional.get();
+                    if(solicitude.getSolicitudEstado().equalsIgnoreCase("pendiente")){
+                        solicitude.setSolicitudEstado("denegado");
+                        solicitudRepository.save(solicitude);
+                        responseJson.put("id solicitud",solicitude.getId());
+                        return ResponseEntity.ok(responseJson);
+                    }else{
+                        responseJson.put("solicitud ya atendida",solicitude.getId());
+                        return ResponseEntity.badRequest().body(responseJson);
+                    }
+
+                }else{
+                    responseJson.put("error","el id brindado no corresponde a ninguna solicitud");
+                    return ResponseEntity.badRequest().body(responseJson);
+                }
+
+
+
+            }
+
+
+
+
+        }catch (Exception e){
+            responseJson.put("error","el id no puede ser nulo y debe ser un numero");
+            return ResponseEntity.badRequest().body(responseJson);
+
+        }
+
+
+    }
+
+    @DeleteMapping("/borrarSolicitud")
+    public ResponseEntity<HashMap<String,Object>> borrarSolicitud (@RequestParam ("idSolicitud") String idStr){
+
+        HashMap<String,Object> responseJson = new HashMap<>();
+
+        try{
+
+            int id = Integer.parseInt(idStr);
+
+            Optional<Solicitude> solicitudeOptional = solicitudRepository.findById(id);
+
+            if(id<=0){
+                responseJson.put("error","El id no puede ser menor o igual que cero");
+                return ResponseEntity.badRequest().body(responseJson);
+            }else{
+                if(solicitudeOptional.isPresent()){
+
+                    Solicitude solicitude = solicitudeOptional.get();
+                    if(solicitude.getSolicitudEstado().equalsIgnoreCase("denegado")){
+                        responseJson.put("id solicitud borrada",solicitude.getId());
+                        return ResponseEntity.ok(responseJson);
+                    }else{
+                        responseJson.put("error","la solicitud no presenta estado denegada");
+                        return ResponseEntity.badRequest().body(responseJson);
+                    }
+
+                }else{
+                    responseJson.put("error","EL id brindado no corresponde a ninguna solicitud");
+                    return ResponseEntity.badRequest().body(responseJson);
+                }
+            }
+
+
+
+
+
+        }catch (Exception e){
+
+            responseJson.put("error","el id debe ser un numero y no dede ser nulo");
+            return ResponseEntity.badRequest().body(responseJson);
+
+        }
+
+
+
+    }
+
+
+
 
 }
