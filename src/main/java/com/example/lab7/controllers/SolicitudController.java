@@ -3,7 +3,9 @@ package com.example.lab7.controllers;
 
 import com.example.lab7.entities.Solicitude;
 import com.example.lab7.repository.SolicitudRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -221,7 +223,13 @@ public class SolicitudController {
 
     }
 
-
-
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<HashMap<String,String>> gestionException(HttpServletRequest request){
+        HashMap<String,String> responseMap = new HashMap<>();
+        if(request.getMethod().equals("POST") || request.getMethod().equals("PUT")){
+            responseMap.put("Result", "Error");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
+    }
 
 }
