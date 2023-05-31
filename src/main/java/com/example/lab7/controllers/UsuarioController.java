@@ -39,7 +39,7 @@ public class UsuarioController {
 
         HashMap<String,Object> responseJson = new HashMap<>();
 
-        if(usuario.getId()!=null){
+        if(usuario.getId()!=null && usuario.getId()>0){
 
 
             boolean flag = false;
@@ -66,7 +66,7 @@ public class UsuarioController {
             }
 
         }else{
-            responseJson.put("error","No se ha especificado el id del usuario a crear");
+            responseJson.put("error","El id brindado debe ser mayor igual a 0 y diferente de null");
             return ResponseEntity.badRequest().body(responseJson);
         }
 
