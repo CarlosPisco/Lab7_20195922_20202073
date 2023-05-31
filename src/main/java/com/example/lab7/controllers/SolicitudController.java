@@ -152,6 +152,7 @@ public class SolicitudController {
                         responseJson.put("id solicitud",solicitude.getId());
                         return ResponseEntity.ok(responseJson);
                     }else{
+                        responseJson.put("solicitud ya atendida",solicitude.getId());
                         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(responseJson);
                     }
 
