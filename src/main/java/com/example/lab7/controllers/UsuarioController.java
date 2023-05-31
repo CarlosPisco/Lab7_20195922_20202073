@@ -81,7 +81,7 @@ public class UsuarioController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<HashMap<String,String>> gestionException(HttpServletRequest request){
         HashMap<String,String> responseMap = new HashMap<>();
-        if(request.getMethod().equals("POST") || request.getMethod().equals("PUT")){
+        if(request.getMethod().equals("POST")){
             responseMap.put("Result", "Error");
         }
         return ResponseEntity.badRequest().body(responseMap);
