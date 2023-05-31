@@ -4,6 +4,7 @@ package com.example.lab7.controllers;
 import com.example.lab7.entities.Usuario;
 import com.example.lab7.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class UsuarioController {
 
                 responseJson.put("id creado",usuario.getId());
 
-                return ResponseEntity.ok(responseJson);
+                return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
 
             }else{
                 responseJson.put("error","El id del usuario a crear ya existe");
