@@ -9,4 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RequestMapping(value="/acciones", produces = MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
 public class AccioneController {
+    
 }
