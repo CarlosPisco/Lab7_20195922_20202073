@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -19,9 +20,9 @@ public class Accione {
     private Double monto;
 
     @Column(name = "fecha")
-    private Instant fecha;
+    private LocalDateTime fecha;
 
-    @ManyToOne( optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuarios_id", nullable = false)
     private Usuario usuarios;
 

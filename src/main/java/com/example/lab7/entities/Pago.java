@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class Pago {
     @Column(name = "monto")
     private Double monto;
 
-    @ManyToOne( optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuarios_id", nullable = false)
     private Usuario usuarios;
 
@@ -26,7 +27,7 @@ public class Pago {
     private String tipoPago;
 
     @Column(name = "fecha")
-    private Instant fecha;
+    private LocalDateTime fecha;
 
     @ManyToOne( optional = false)
     @JoinColumn(name = "creditos_id", nullable = false)
