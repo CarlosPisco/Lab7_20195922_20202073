@@ -55,7 +55,7 @@ public class SolicitudController {
                     solicitudRepository.save(solicitude);
                     responseJson.put("Monto solicitado",solicitude.getSolicitudMonto());
                     responseJson.put("id",solicitude.getId());
-                    return ResponseEntity.ok(responseJson);
+                    return ResponseEntity.status(HttpStatus.CREATED).body(responseJson);
 
                 }else{
 
@@ -153,7 +153,6 @@ public class SolicitudController {
                         return ResponseEntity.ok(responseJson);
                     }else{
                         return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(responseJson);
-                        return ResponseEntity.badRequest().body(responseJson);
                     }
 
                 }else{
