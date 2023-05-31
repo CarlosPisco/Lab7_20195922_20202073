@@ -3,7 +3,9 @@ package com.example.lab7.controllers;
 
 import com.example.lab7.entities.Usuario;
 import com.example.lab7.repository.UsuarioRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -74,6 +76,15 @@ public class UsuarioController {
 
 
 
+    }
+    //Exceptionhandlerpost
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<HashMap<String,String>> gestionException(HttpServletRequest request){
+        HashMap<String,String> responseMap = new HashMap<>();
+        if(request.getMethod().equals("POST") || request.getMethod().equals("PUT")){
+            responseMap.put("Result", "Error");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
     }
 
 
