@@ -6,6 +6,9 @@ import com.example.lab7.repository.UsuarioRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +17,10 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/users")
 public class UsuarioController {
+
+    LocalDateTime now = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    String formattedDate = now.format(formatter);
 
 
     final UsuarioRepository usuarioRepository;
@@ -46,6 +53,7 @@ public class UsuarioController {
 
             if(!flag){
 
+                usuario.setFechaRegistro(Instant.parse(formattedDate));
                 usuarioRepository.save(usuario);
 
                 responseJson.put("id creado",usuario.getId());
@@ -61,11 +69,6 @@ public class UsuarioController {
             responseJson.put("error","No se ha especificado el id del usuario a crear");
             return ResponseEntity.badRequest().body(responseJson);
         }
-
-
-
-
-
 
 
 
